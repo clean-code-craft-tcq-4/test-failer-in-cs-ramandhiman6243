@@ -4,42 +4,32 @@ namespace MisalignedSpace
 {
     public class ColorMap
     {
-        const string colorPrintFormat = "{0} | {1} | {2}";
-
         public static int calculatePairNumber(int majorColorIndex, int minorColorIndex)
         {
-            return majorColorIndex * 5 + minorColorIndex;
+            return majorColorIndex * ColorMapData.getColorsCount() + minorColorIndex + 1;
         }
 
-        public static string formatColorMap(int pairNumber, string majorColor, string minorColor)
-        {
-            return string.Format(colorPrintFormat, pairNumber, majorColor, minorColor);
-        }
-
-        public static void print(string value)
-        {
-            printOnConsole(value);
-        }
-
-        public static void printOnConsole(string value)
+        static void printColorMap(string value)
         {
             Console.WriteLine(value);
         }
 
-        public static int printColorMap()
+        public static string getPrintableString()
         {
+            string outputString = "";
             int i = 0, j = 0;
-            for (i = 0; i < 5; i++)
+            for (i = 0; i < ColorMapData.getColorsCount(); i++)
             {
-                for (j = 0; j < 5; j++)
+                for (j = 0; j < ColorMapData.getColorsCount(); j++)
                 {
                     int pairNumber = calculatePairNumber(i, j);
                     string majorColor = ColorMapData.getMajorColor(i);
-                    string minorColor = ColorMapData.getMinorColor(i);
-                    print(formatColorMap(pairNumber, majorColor, minorColor));
+                    string minorColor = ColorMapData.getMinorColor(j);
+                    outputString += ColorMapToStringConverter.formatColorMap(pairNumber, majorColor, minorColor) + "\n";
                 }
             }
-            return i * j;
+            printColorMap(outputString);
+            return outputString;
         }
     }
 }
